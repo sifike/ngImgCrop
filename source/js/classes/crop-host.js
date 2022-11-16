@@ -28,6 +28,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     // Object Pointers
     var ctx=null,
         image=null,
+        silouette=null,
         theArea=null;
 
     // Dimensions
@@ -35,7 +36,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
         maxCanvasDims=[300,300];
 
     // Result Image size
-    var resImgSize=200;
+    var resImgSize=1000;
 
     // Result Image type
     var resImgFormat='image/png';
@@ -163,7 +164,6 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     };
 
-
     this.getResultImageDataURI=function() {
       var temp_ctx, temp_canvas;
       temp_canvas = angular.element('<canvas></canvas>')[0];
@@ -177,6 +177,33 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
         return temp_canvas.toDataURL(resImgFormat, resImgQuality);
       }
       return temp_canvas.toDataURL(resImgFormat);
+    };
+
+    this.getSizes = function() {
+      var curSize=theArea.getSize(),
+          curMinSize=theArea.getMinSize(),
+          curX=theArea.getX(),
+          curY=theArea.getY();
+
+      return [curSize, curX, curY];
+    };
+
+    this.setSilouette = function (imageSource) {
+      silouette = null;
+      if(!!imageSource) {
+        var newImage = new Image();
+        if(imageSource.substring(0,4).toLowerCase()==='http') {
+          newImage.crossOrigin = 'anonymous';
+        }
+        newImage.onload = function(){
+          silouette = newImage;
+        };
+        newImage.onerror = function() {
+          events.trigger('load-error');
+        };
+        events.trigger('load-start');
+        newImage.src = imageSource;
+      }
     };
 
     this.setNewImageSource=function(imageSource) {
@@ -195,8 +222,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
             var orientation=cropEXIF.getTag(newImage,'Orientation');
 
             if([3,6,8].indexOf(orientation)>-1) {
-              var canvas = document.createElement("canvas"),
-                  ctx=canvas.getContext("2d"),
+              var canvas = document.createElement('canvas'),
+                  ctx=canvas.getContext('2d'),
                   cw = newImage.width, ch = newImage.height, cx = 0, cy = 0, deg=0;
               switch(orientation) {
                 case 3:
@@ -224,12 +251,14 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
               ctx.drawImage(newImage, cx, cy);
 
               image=new Image();
-              image.src = canvas.toDataURL("image/png");
+              image.src = canvas.toDataURL('image/png');
             } else {
               image=newImage;
             }
             resetCropHost();
             events.trigger('image-updated');
+
+            console.log('Image loaded');
           });
         };
         newImage.onerror=function() {
@@ -327,6 +356,9 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       // resetCropHost();
       if(image!==null) {
         theArea.setImage(image);
+      }
+      if (silouette !== null) {
+        theArea.setSilouette(silouette);
       }
 
       drawScene();

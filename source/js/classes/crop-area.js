@@ -10,6 +10,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
     this._cropCanvas=new CropCanvas(ctx);
 
     this._image=new Image();
+    this._silouette = new Image();
     this._x = 0;
     this._y = 0;
     this._size = 200;
@@ -22,6 +23,9 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
   };
   CropArea.prototype.setImage = function (image) {
     this._image = image;
+  };
+  CropArea.prototype.setSilouette = function (image) {
+    this._silouette = image;
   };
 
   CropArea.prototype.getX = function () {
@@ -73,7 +77,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
 
   CropArea.prototype.draw=function() {
     // draw crop area
-    this._cropCanvas.drawCropArea(this._image,[this._x,this._y],this._size,this._drawArea);
+    this._cropCanvas.drawCropArea(this._image,[this._x,this._y],this._size,this._drawArea,this._silouette);
   };
 
   CropArea.prototype.processMouseMove=function() {};

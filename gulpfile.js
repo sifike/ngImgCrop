@@ -38,13 +38,11 @@ var Config = {
     },
     compileUnminified: {
       root:   'compile/unminified',
-      js:     'compile/unminified',
-      css:    'compile/unminified'
+      js:     'compile/unminified'
     },
     compileMinified: {
       root:   'compile/minified',
-      js:     'compile/minified',
-      css:    'compile/minified'
+      js:     'compile/minified'
     }
   },
   banners: {
@@ -63,18 +61,6 @@ var Config = {
 
 // Tasks
 // =====
-
-// Compile Styles
-gulp.task('styles', function(){
-  return gulp.src(Config.paths.source.scss + '/'+pkg.name+'.scss')
-    .pipe(compass({
-      sass: Config.paths.source.scss,
-      css: Config.paths.compileUnminified.css,
-      errLogToConsole: true
-    }))
-    .pipe(prefix('last 2 version', '> 5%', 'safari 5', 'ie 8', 'ie 7', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest(Config.paths.compileUnminified.css));
-});
 
 // Compile Scripts
 gulp.task('scripts', function(){
@@ -105,21 +91,12 @@ gulp.task('dist:js:clean', function(){
   return gulp.src([Config.paths.compileMinified.root + '/**/*.js'], { read: false })
     .pipe(clean());
 });
-gulp.task('dist:css:clean', function(){
-  return gulp.src([Config.paths.compileMinified.root + '/**/*.css'], { read: false })
-    .pipe(clean());
-});
 gulp.task('dist:js', ['dist:js:clean', 'scripts'], function(){
   return gulp.src(Config.paths.compileUnminified.js + '/**/*.js')
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(header(Config.banners.minified))
     .pipe(gulp.dest(Config.paths.compileMinified.js));
-});
-gulp.task('dist:css', ['dist:css:clean', 'styles'], function(){
-  return gulp.src(Config.paths.compileUnminified.css + '/**/*.css')
-    .pipe(minifyCss())
-    .pipe(gulp.dest(Config.paths.compileMinified.css));
 });
 
 // Server
@@ -144,10 +121,8 @@ gulp.task('livereload', function(){
 
 // Watches
 gulp.task('watch', function(){
-  gulp.watch(Config.paths.source.scss + '/**/*.scss', ['styles']);
   gulp.watch([Config.paths.source.js + '/**/*.js'], ['scripts']);
   gulp.watch([
-    Config.paths.compileUnminified.css + '/**/*.css',
     Config.paths.compileUnminified.js + '/**/*.js',
     Config.testPage
   ], function(evt){
@@ -167,12 +142,12 @@ gulp.task('lint', function() {
 });
 
 // Build
-gulp.task('build', ['dist:js', 'dist:css']);
+gulp.task('build', ['dist:js']);
 
 // Start server and watch for changes
-gulp.task('default', ['server', 'livereload', 'styles', 'scripts', 'watch'], function(){
+gulp.task('default', ['server', 'livereload', 'scripts', 'watch'], function(){
   // use the -o arg to open the test page in the browser
-  if(argv.o) {
+
     opn('http://localhost:' + Config.port+'/'+Config.testPage);
-  }
+
 });

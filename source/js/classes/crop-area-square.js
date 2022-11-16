@@ -23,6 +23,12 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     this._areaIsHover = false;
     this._resizeCtrlIsDragging = -1;
     this._areaIsDragging = false;
+
+    this._image = new Image(1000, 1000);
+    this._image.src = 'img/base.png';
+
+    this._silouette = new Image();
+    this._silouette.src = 'employee_silouette.png';
   };
 
   CropAreaSquare.prototype = new CropArea();
@@ -68,7 +74,7 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
 
   CropAreaSquare.prototype._drawArea=function(ctx,centerCoords,size){
     var hSize=size/2;
-    ctx.rect(centerCoords[0]-hSize,centerCoords[1]-hSize,size,size);
+    ctx.rect(centerCoords[0]-hSize,centerCoords[1]-hSize, size, size);
   };
 
   CropAreaSquare.prototype.draw=function() {

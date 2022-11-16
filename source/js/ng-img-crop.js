@@ -7,12 +7,16 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       image: '=',
       resultImage: '=',
 
+      silouette: '=',
+
       changeOnFly: '=',
       areaType: '@',
       areaMinSize: '=',
       resultImageSize: '=',
       resultImageFormat: '@',
       resultImageQuality: '=',
+
+      sPosition: '=',
 
       onChange: '&',
       onLoadBegin: '&',
@@ -33,6 +37,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       // Store Result Image to check if it's changed
       var storedResultImage;
 
+      if (scope.silouette) {
+        cropHost.setSilouette(scope.silouette);
+      }
+
+      console.log('scope', scope);
+
       var updateResultImage=function(scope) {
         var resultImage=cropHost.getResultImageDataURI();
         if(storedResultImage!==resultImage) {
@@ -42,6 +52,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
           }
           scope.onChange({$dataURI: scope.resultImage});
         }
+
+        scope.sPosition = cropHost.getSizes().join(' - ');
+        console.log('spos', scope.sPosition);
       };
 
       // Wrapper to safely exec functions within $apply on a running $digest cycle
@@ -78,6 +91,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       // Sync CropHost with Directive's options
       scope.$watch('image',function(){
         cropHost.setNewImageSource(scope.image);
+      });
+      scope.$watch('silouette',function(){
+        cropHost.setSilouette(scope.silouette);
       });
       scope.$watch('areaType',function(){
         cropHost.setAreaType(scope.areaType);

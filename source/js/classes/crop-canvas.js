@@ -99,7 +99,7 @@ crop.factory('cropCanvas', [function() {
 
     /* Crop Area */
 
-    this.drawCropArea=function(image, centerCoords, size, fnDrawClipPath) {
+    this.drawCropArea=function(image, centerCoords, size, fnDrawClipPath, silouette) {
       var xRatio=image.width/ctx.canvas.width,
           yRatio=image.height/ctx.canvas.height,
           xLeft=centerCoords[0]-size/2,
@@ -116,6 +116,7 @@ crop.factory('cropCanvas', [function() {
       // draw part of original image
       if (size > 0) {
           ctx.drawImage(image, xLeft*xRatio, yTop*yRatio, size*xRatio, size*yRatio, xLeft, yTop, size, size);
+          ctx.drawImage(silouette, 0, 0, 500, 500, xLeft, yTop, size, size);
       }
 
       ctx.beginPath();
