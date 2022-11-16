@@ -8,10 +8,10 @@
   "version": "0.3.2",
   "description": "Image crop directive for AngularJS",
   "license": "MIT",
-  "homepage": "https://github.com/alexk111/ngImgCrop",
+  "homepage": "https://github.com/sifike/ngImgCrop",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alexk111/ngImgCrop.git"
+    "url": "https://github.com/sifike/ngImgCrop.git"
   },
   "dependencies": {},
   "devDependencies": {
