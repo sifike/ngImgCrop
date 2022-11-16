@@ -50,11 +50,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
           if(angular.isDefined(scope.resultImage)) {
             scope.resultImage=resultImage;
           }
-          scope.onChange({$dataURI: scope.resultImage});
+          scope.onChange({$dataURI: scope.resultImage, sPosition: cropHost.getSizes()});
         }
-
-        scope.sPosition = cropHost.getSizes().join(' - ');
-        console.log('spos', scope.sPosition);
       };
 
       // Wrapper to safely exec functions within $apply on a running $digest cycle

@@ -1,11 +1,11 @@
 /*!
- * ngImgCrop v0.3.2
+ * ngImgCrop v0.3.5
  * https://github.com/sifike/ngImgCrop
  *
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Wednesday, November 16th, 2022, 6:05:49 PM
+ * Generated at Wednesday, November 16th, 2022, 8:23:32 PM
  */
 (function() {
 'use strict';
@@ -191,7 +191,7 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     this._image.src = 'img/base.png';
 
     this._silouette = new Image();
-    this._silouette.src = 'employee_silouette.png';
+    this._silouette.src = 'assets/employee_silouette.png';
   };
 
   CropAreaSquare.prototype = new CropArea();
@@ -1851,11 +1851,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
           if(angular.isDefined(scope.resultImage)) {
             scope.resultImage=resultImage;
           }
-          scope.onChange({$dataURI: scope.resultImage});
+          scope.onChange({$dataURI: scope.resultImage, sPosition: cropHost.getSizes()});
         }
-
-        scope.sPosition = cropHost.getSizes().join(' - ');
-        console.log('spos', scope.sPosition);
       };
 
       // Wrapper to safely exec functions within $apply on a running $digest cycle
