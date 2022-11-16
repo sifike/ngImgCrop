@@ -6,8 +6,7 @@
   ],
   "description": "Image crop directive for AngularJS",
   "main": [
-    "compile/minified/ng-img-crop.js",
-    "compile/minified/ng-img-crop.css"
+    "compile/minified/ng-img-crop.js"
   ],
   "keywords": [
     "angular",
