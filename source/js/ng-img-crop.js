@@ -41,8 +41,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
         cropHost.setSilouette(scope.silouette);
       }
 
-      console.log('scope', scope);
-
       var updateResultImage=function(scope) {
         var resultImage=cropHost.getResultImageDataURI();
         if(storedResultImage!==resultImage) {

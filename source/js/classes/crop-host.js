@@ -180,12 +180,11 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     };
 
     this.getSizes = function() {
-      var curSize=theArea.getSize(),
-          curMinSize=theArea.getMinSize(),
-          curX=theArea.getX(),
-          curY=theArea.getY();
+      var curSize = theArea.getSize(),
+          curX = theArea.getX() - curSize / 2,
+          curY = theArea.getY() - curSize / 2;
 
-      return [curSize, curX, curY];
+      return {x: curX, y: curY, size: curSize};
     };
 
     this.setSilouette = function (imageSource) {
