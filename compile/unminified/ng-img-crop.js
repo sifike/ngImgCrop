@@ -5,7 +5,7 @@
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Wednesday, November 16th, 2022, 8:23:32 PM
+ * Generated at Thursday, November 17th, 2022, 1:02:51 PM
  */
 (function() {
 'use strict';
@@ -1559,12 +1559,11 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     };
 
     this.getSizes = function() {
-      var curSize=theArea.getSize(),
-          curMinSize=theArea.getMinSize(),
-          curX=theArea.getX(),
-          curY=theArea.getY();
+      var curSize = theArea.getSize(),
+          curX = theArea.getX() - curSize / 2,
+          curY = theArea.getY() - curSize / 2;
 
-      return [curSize, curX, curY];
+      return {x: curX, y: curY, size: curSize};
     };
 
     this.setSilouette = function (imageSource) {
@@ -1841,8 +1840,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       if (scope.silouette) {
         cropHost.setSilouette(scope.silouette);
       }
-
-      console.log('scope', scope);
 
       var updateResultImage=function(scope) {
         var resultImage=cropHost.getResultImageDataURI();
