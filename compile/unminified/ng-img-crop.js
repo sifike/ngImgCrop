@@ -5,7 +5,7 @@
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Thursday, November 17th, 2022, 1:02:51 PM
+ * Generated at Friday, November 18th, 2022, 10:40:46 AM
  */
 (function() {
 'use strict';
@@ -1715,6 +1715,15 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     };
 
+    this.setPosition = function (sPosition) {
+      if (theArea) {
+        theArea.setSize(sPosition.size);
+        theArea.setX(sPosition.x);
+        theArea.setY(sPosition.y);
+        drawScene();
+      }
+    };
+
     this.setAreaType=function(type) {
       var curSize=theArea.getSize(),
           curMinSize=theArea.getMinSize(),
@@ -1748,7 +1757,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     ctx = elCanvas[0].getContext('2d');
 
     // Init CropArea
-    theArea = new CropAreaCircle(ctx, events);
+    theArea = new CropAreaSquare(ctx, events);
 
     // Init Mouse Event Listeners
     $document.on('mousemove',onMouseMove);
@@ -1848,7 +1857,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
           if(angular.isDefined(scope.resultImage)) {
             scope.resultImage=resultImage;
           }
-          scope.onChange({$dataURI: scope.resultImage, sPosition: cropHost.getSizes()});
+          scope.onChange({$dataURI: scope.resultImage, $sPosition: cropHost.getSizes()});
         }
       };
 
@@ -1889,6 +1898,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       });
       scope.$watch('silouette',function(){
         cropHost.setSilouette(scope.silouette);
+      });
+      scope.$watch('sPosition',function(){
+        cropHost.setPosition(scope.sPosition);
       });
       scope.$watch('areaType',function(){
         cropHost.setAreaType(scope.areaType);

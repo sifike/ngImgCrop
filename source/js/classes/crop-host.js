@@ -336,6 +336,15 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     };
 
+    this.setPosition = function (sPosition) {
+      if (theArea) {
+        theArea.setSize(sPosition.size);
+        theArea.setX(sPosition.x);
+        theArea.setY(sPosition.y);
+        drawScene();
+      }
+    };
+
     this.setAreaType=function(type) {
       var curSize=theArea.getSize(),
           curMinSize=theArea.getMinSize(),
@@ -369,7 +378,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     ctx = elCanvas[0].getContext('2d');
 
     // Init CropArea
-    theArea = new CropAreaCircle(ctx, events);
+    theArea = new CropAreaSquare(ctx, events);
 
     // Init Mouse Event Listeners
     $document.on('mousemove',onMouseMove);

@@ -92,6 +92,7 @@
               result-image-format="{{resImgFormat}}"
               result-image-quality="resImgQuality"
               result-image-size="resImgSize"
+              s-position="{x: 300, y: 300, size: 250}"
               on-change="onChange($dataURI)"
               on-load-begin="onLoadBegin()"
               on-load-done="onLoadDone()"
@@ -112,16 +113,15 @@
       .controller('Ctrl', function($scope) {
         $scope.size='big';
         $scope.type='square';
-        $scope.imageDataURI='';
+        $scope.imageDataURI='test.jpg';
         $scope.resImageDataURI='';
-        $scope.sPosition = '';
         $scope.resImgFormat='image/png';
         $scope.resImgQuality=1;
         $scope.selMinSize=200;
         $scope.resImgSize=500;
         //$scope.aspectRatio=1.2;
-        $scope.onChange=function($dataURI) {
-          console.log('onChange fired');
+        $scope.onChange=function($dataURI, sPosition) {
+          console.log('onChange fired: ', sPosition);
         };
         $scope.onLoadBegin=function() {
           console.log('onLoadBegin fired');

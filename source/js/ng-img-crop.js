@@ -48,7 +48,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
           if(angular.isDefined(scope.resultImage)) {
             scope.resultImage=resultImage;
           }
-          scope.onChange({$dataURI: scope.resultImage, sPosition: cropHost.getSizes()});
+          scope.onChange({$dataURI: scope.resultImage, $sPosition: cropHost.getSizes()});
         }
       };
 
@@ -89,6 +89,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
       });
       scope.$watch('silouette',function(){
         cropHost.setSilouette(scope.silouette);
+      });
+      scope.$watch('sPosition',function(){
+        cropHost.setPosition(scope.sPosition);
       });
       scope.$watch('areaType',function(){
         cropHost.setAreaType(scope.areaType);
