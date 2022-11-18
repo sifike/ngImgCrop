@@ -5,7 +5,7 @@
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, November 18th, 2022, 1:56:44 PM
+ * Generated at Friday, November 18th, 2022, 1:59:09 PM
  */
 (function() {
 'use strict';
@@ -1736,19 +1736,11 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
       }
     };
 
-    this.setAreaType=function(type, sPosition) {
-
-      console.log('setAreaType fired', sPosition);
+    this.setAreaType=function(type) {
       var curSize=theArea.getSize(),
           curMinSize=theArea.getMinSize(),
           curX=theArea.getX(),
           curY=theArea.getY();
-
-      if (sPosition && sPosition.x) {
-        curSize = sPosition.size;
-        curX = sPosition.x + sPosition.size / 2;
-        curY = sPosition.y + sPosition.size / 2;
-      }
 
       var AreaClass=CropAreaCircle;
       if(type==='square') {
@@ -1924,7 +1916,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
         cropHost.setPosition(scope.sPosition);
       });
       scope.$watch('areaType',function(){
-        cropHost.setAreaType(scope.areaType, scope.sPosition);
+        cropHost.setAreaType(scope.areaType);
         updateResultImage(scope);
       });
       scope.$watch('areaMinSize',function(){
