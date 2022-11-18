@@ -5,7 +5,7 @@
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, November 18th, 2022, 2:11:53 PM
+ * Generated at Friday, November 18th, 2022, 2:37:44 PM
  */
 (function() {
 'use strict';
@@ -1725,7 +1725,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     };
 
     this.setPosition = function (sPosition) {
-      if (theArea) {
+      if (theArea && sPosition) {
         setPosition = sPosition;
 
         theArea.setSize(sPosition.size);
