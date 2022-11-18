@@ -91,6 +91,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
         cropHost.setSilouette(scope.silouette);
       });
       scope.$watch('sPosition',function(){
+        console.log('sPosition input', scope.sPosition);
         cropHost.setPosition(scope.sPosition);
       });
       scope.$watch('areaType',function(){

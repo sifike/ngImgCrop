@@ -5,7 +5,7 @@
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, November 18th, 2022, 10:40:46 AM
+ * Generated at Friday, November 18th, 2022, 1:56:44 PM
  */
 (function() {
 'use strict';
@@ -191,7 +191,7 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     this._image.src = 'img/base.png';
 
     this._silouette = new Image();
-    this._silouette.src = 'assets/employee_silouette.png';
+    this._silouette.src = 'employee_silouette.png';
   };
 
   CropAreaSquare.prototype = new CropArea();
@@ -1423,6 +1423,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     // Result Image quality
     var resImgQuality=null;
 
+    var setPosition = null;
+
     /* PRIVATE FUNCTIONS */
 
     // Draw Scene
@@ -1471,9 +1473,16 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
         }
         elCanvas.prop('width',canvasDims[0]).prop('height',canvasDims[1]).css({'margin-left': -canvasDims[0]/2+'px', 'margin-top': -canvasDims[1]/2+'px'});
 
-        theArea.setX(ctx.canvas.width/2);
-        theArea.setY(ctx.canvas.height/2);
-        theArea.setSize(Math.min(200, ctx.canvas.width/2, ctx.canvas.height/2));
+        if (setPosition && setPosition.size) {
+          theArea.setX(setPosition.x + setPosition.size / 2);
+          theArea.setY(setPosition.y + setPosition.size / 2);
+          theArea.setSize(setPosition.size);
+        } else {
+          theArea.setX(ctx.canvas.width/2);
+          theArea.setY(ctx.canvas.height/2);
+          theArea.setSize(Math.min(200, ctx.canvas.width/2, ctx.canvas.height/2));
+        }
+
       } else {
         elCanvas.prop('width',0).prop('height',0).css({'margin-top': 0});
       }
@@ -1717,18 +1726,29 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
 
     this.setPosition = function (sPosition) {
       if (theArea) {
+        setPosition = sPosition;
+
         theArea.setSize(sPosition.size);
         theArea.setX(sPosition.x);
         theArea.setY(sPosition.y);
         drawScene();
+
       }
     };
 
-    this.setAreaType=function(type) {
+    this.setAreaType=function(type, sPosition) {
+
+      console.log('setAreaType fired', sPosition);
       var curSize=theArea.getSize(),
           curMinSize=theArea.getMinSize(),
           curX=theArea.getX(),
           curY=theArea.getY();
+
+      if (sPosition && sPosition.x) {
+        curSize = sPosition.size;
+        curX = sPosition.x + sPosition.size / 2;
+        curY = sPosition.y + sPosition.size / 2;
+      }
 
       var AreaClass=CropAreaCircle;
       if(type==='square') {
@@ -1900,10 +1920,11 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function($timeo
         cropHost.setSilouette(scope.silouette);
       });
       scope.$watch('sPosition',function(){
+        console.log('sPosition input', scope.sPosition);
         cropHost.setPosition(scope.sPosition);
       });
       scope.$watch('areaType',function(){
-        cropHost.setAreaType(scope.areaType);
+        cropHost.setAreaType(scope.areaType, scope.sPosition);
         updateResultImage(scope);
       });
       scope.$watch('areaMinSize',function(){

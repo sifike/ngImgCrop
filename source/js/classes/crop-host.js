@@ -44,6 +44,8 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     // Result Image quality
     var resImgQuality=null;
 
+    var setPosition = null;
+
     /* PRIVATE FUNCTIONS */
 
     // Draw Scene
@@ -92,9 +94,16 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
         }
         elCanvas.prop('width',canvasDims[0]).prop('height',canvasDims[1]).css({'margin-left': -canvasDims[0]/2+'px', 'margin-top': -canvasDims[1]/2+'px'});
 
-        theArea.setX(ctx.canvas.width/2);
-        theArea.setY(ctx.canvas.height/2);
-        theArea.setSize(Math.min(200, ctx.canvas.width/2, ctx.canvas.height/2));
+        if (setPosition && setPosition.size) {
+          theArea.setX(setPosition.x + setPosition.size / 2);
+          theArea.setY(setPosition.y + setPosition.size / 2);
+          theArea.setSize(setPosition.size);
+        } else {
+          theArea.setX(ctx.canvas.width/2);
+          theArea.setY(ctx.canvas.height/2);
+          theArea.setSize(Math.min(200, ctx.canvas.width/2, ctx.canvas.height/2));
+        }
+
       } else {
         elCanvas.prop('width',0).prop('height',0).css({'margin-top': 0});
       }
@@ -338,10 +347,13 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
 
     this.setPosition = function (sPosition) {
       if (theArea) {
+        setPosition = sPosition;
+
         theArea.setSize(sPosition.size);
         theArea.setX(sPosition.x);
         theArea.setY(sPosition.y);
         drawScene();
+
       }
     };
 
