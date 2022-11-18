@@ -346,7 +346,7 @@ crop.factory('cropHost', ['$document', 'cropAreaCircle', 'cropAreaSquare', 'crop
     };
 
     this.setPosition = function (sPosition) {
-      if (theArea) {
+      if (theArea && sPosition) {
         setPosition = sPosition;
 
         theArea.setSize(sPosition.size);
