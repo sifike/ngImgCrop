@@ -5,7 +5,7 @@
  * Copyright (c) 2022 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, November 18th, 2022, 1:59:09 PM
+ * Generated at Friday, November 18th, 2022, 2:11:53 PM
  */
 (function() {
 'use strict';
@@ -191,7 +191,7 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     this._image.src = 'img/base.png';
 
     this._silouette = new Image();
-    this._silouette.src = 'employee_silouette.png';
+    this._silouette.src = 'assets/employee_silouette.png';
   };
 
   CropAreaSquare.prototype = new CropArea();
